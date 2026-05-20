@@ -1,0 +1,17 @@
+{
+  "short_name": "Pharmapool 2026",
+  "name": "Pharmapool National Conference & Workshop 2026",
+  "description": "National Conference on Health-Related Research — July 1–2, 2026 · Virtual",
+  "icons": [
+    {
+      "src": "logo.png",
+      "sizes": "192x192 512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#071D35",
+  "background_color": "#071D35"
+}
