@@ -411,6 +411,18 @@ function Footer() {
   );
 }
 
+function Field({ label, required, error, children }) {
+  return (
+    <div style={{ marginBottom: "1.25rem" }}>
+      <label style={{ display: "block", fontSize: 13, fontWeight: 600, color: COLORS.navy, marginBottom: 6 }}>
+        {label} {required && <span style={{ color: "#E53E3E" }}>*</span>}
+      </label>
+      {children}
+      {error && <p style={{ fontSize: 12, color: "#E53E3E", marginTop: 4 }}>{error}</p>}
+    </div>
+  );
+}
+
 // ── Registration Form
 function RegistrationForm() {
   const isMobile = useIsMobile();
@@ -466,16 +478,6 @@ function RegistrationForm() {
       setUploading(false);
     }
   };
-
-  const Field = ({ label, required, error, children }) => (
-    <div style={{ marginBottom: "1.25rem" }}>
-      <label style={{ display: "block", fontSize: 13, fontWeight: 600, color: COLORS.navy, marginBottom: 6 }}>
-        {label} {required && <span style={{ color: "#E53E3E" }}>*</span>}
-      </label>
-      {children}
-      {error && <p style={{ fontSize: 12, color: "#E53E3E", marginTop: 4 }}>{error}</p>}
-    </div>
-  );
 
   const inputStyle = (err) => ({
     width: "100%", padding: "10px 12px", fontSize: 14, borderRadius: 8,
