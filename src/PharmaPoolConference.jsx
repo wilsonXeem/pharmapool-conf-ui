@@ -1,5 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import logo from "./logo.png";
+import unnLogo from "./unn.png";
+import springerNatureLogo from "./springernature.png";
 
 const API = process.env.REACT_APP_API_URL || "http://localhost:5001/api";
 
@@ -25,7 +27,7 @@ const SPEAKERS = [
   { initials: "NO", name: "Dr. Nwamaka Osakwe", role: "Consultant Nephrologist and Medical Writer", org: "Federal Medical Centre, Asaba, Delta State" },
   { initials: "OOK", name: "Prof. Olobayo O. Kunle", role: "WHO Expert in Herbal Medicines", org: "National Institute for Pharmaceutical Research and Development" },
   { initials: "UKO", name: "Dr. Ugwu Kenneth Okonkwo", role: "Dept. of Microbiology", org: "University of Nigeria, Nsukka" },
-  { initials: "DH", name: "Dr. Donald Harting", role: "Medical Writer", org: "Harting Communication LLC, USA" },
+  { initials: "DH", name: "Donald Harting MA, MS", role: "Medical Writer", org: "Harting Communication LLC, USA" },
   { initials: "COA", name: "Prof. Chukwuma O. Agubata", role: "Fulbright Visiting Scholar; Winner, Nigeria Prize for Science (2017)", org: "University of Nigeria, Nsukka" },
   { initials: "CC", name: "Dr. Clifford Chuwah", role: "Executive Publishing Editor", org: "Springer Nature" },
   { initials: "VM", name: "Vuyo Mliswa", role: "Academic Affairs Manager, Africa", org: "Springer Nature" },
@@ -52,6 +54,25 @@ const AVATAR_COLORS = [
   ["#E8F0FE", "#1A56DB"], ["#E8F9F2", "#0B7B5B"], ["#FEF3C7", "#92400E"],
   ["#FDE8F0", "#9D174D"], ["#EDE9FE", "#5521B5"], ["#FEE2E2", "#991B1B"],
 ];
+
+const PARTNERS = [
+  "GMP Research Group, University of Nigeria Nsukka (UNN)",
+  "Basic & Translational Cancer Research Group, UNN",
+  "Springer Nature",
+];
+
+const CONTACTS = {
+  secretary: {
+    name: "Dr. Onyinyechi L. Nwachukwu",
+    role: "Secretary, LOC",
+    phone: "+234 803 824 6065",
+  },
+  chairman: {
+    name: "Prof. Chukwuma O. Agubata",
+    role: "Chairman, LOC",
+    phone: "+234 813 841 3948",
+  },
+};
 
 function useIsMobile() {
   const [mobile, setMobile] = useState(window.innerWidth < 768);
@@ -88,6 +109,23 @@ function SectionHeader({ label, title, centered }) {
     <div style={{ textAlign: centered ? "center" : "left" }}>
       <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: 2.5, color: COLORS.green, textTransform: "uppercase" }}>{label}</span>
       <h2 style={{ fontSize: "clamp(24px, 3vw, 36px)", fontWeight: 800, color: COLORS.navy, marginTop: 6, fontFamily: "'Georgia', serif", lineHeight: 1.2 }}>{title}</h2>
+    </div>
+  );
+}
+
+function LogoStrip({ compact = false, light = false }) {
+  const itemStyle = {
+    height: compact ? 34 : 72,
+    maxWidth: compact ? 112 : 170,
+    objectFit: "contain",
+    display: "block",
+  };
+
+  return (
+    <div style={{ display: "flex", alignItems: "center", justifyContent: compact ? "flex-start" : "center", gap: compact ? 12 : 22, flexWrap: "wrap" }}>
+      <img src={logo} alt="Pharmapool" style={{ ...itemStyle, width: compact ? 34 : 72, filter: light ? "drop-shadow(0 4px 20px rgba(46,204,139,0.25))" : "none" }} />
+      <img src={unnLogo} alt="University of Nigeria Nsukka" style={itemStyle} />
+      <img src={springerNatureLogo} alt="Springer Nature" style={{ ...itemStyle, background: light ? "rgba(255,255,255,0.88)" : "transparent", borderRadius: light ? 8 : 0, padding: light ? "6px 8px" : 0 }} />
     </div>
   );
 }
@@ -143,7 +181,9 @@ function Hero({ onNav }) {
       <div style={{ position: "absolute", inset: 0, backgroundImage: `url(${IMAGES.hero})`, backgroundSize: "cover", backgroundPosition: "center", filter: "brightness(0.25)" }} />
       <div style={{ position: "absolute", inset: 0, background: `linear-gradient(135deg, ${COLORS.navyDark} 0%, rgba(11,43,78,0.85) 50%, rgba(11,77,92,0.8) 100%)` }} />
       <div style={{ position: "relative", maxWidth: 900, margin: "0 auto", padding: "5rem 2rem 4rem", textAlign: "center" }}>
-        <img src={logo} alt="Pharmapool" style={{ height: 90, width: 90, objectFit: "contain", filter: "drop-shadow(0 4px 24px rgba(46,204,139,0.3))", display: "block", margin: "0 auto 1.75rem" }} />
+        <div style={{ marginBottom: "1.75rem" }}>
+          <LogoStrip light />
+        </div>
         <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "rgba(46,204,139,0.12)", border: "1px solid rgba(46,204,139,0.35)", borderRadius: 24, padding: "7px 18px", marginBottom: "1.75rem" }}>
           <span style={{ width: 7, height: 7, borderRadius: "50%", background: COLORS.green, display: "inline-block", boxShadow: "0 0 8px #2ECC8B" }} />
           <span style={{ color: COLORS.green, fontSize: 12, fontWeight: 700, letterSpacing: 1.5 }}>VIRTUAL · JULY 1–2, 2026</span>
@@ -171,7 +211,7 @@ function Hero({ onNav }) {
         <div style={{ borderTop: "1px solid rgba(255,255,255,0.1)", paddingTop: "1.5rem" }}>
           <p style={{ color: "rgba(255,255,255,0.3)", fontSize: 10, fontWeight: 700, letterSpacing: 2, textTransform: "uppercase", marginBottom: "0.75rem" }}>In Partnership With</p>
           <div style={{ display: "flex", justifyContent: "center", gap: "2rem", flexWrap: "wrap" }}>
-            {["GMP Research Group, UNN", "Basic & Translational Cancer Research Group, UNN", "Springer Nature"].map(p => (
+            {PARTNERS.map(p => (
               <span key={p} style={{ fontSize: 12, color: "rgba(255,255,255,0.5)", fontWeight: 500 }}>{p}</span>
             ))}
           </div>
@@ -190,7 +230,7 @@ function ThemeSection() {
           <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: 2, color: COLORS.green, textTransform: "uppercase" }}>About the Conference</span>
           <h2 style={{ fontSize: "clamp(24px, 3vw, 36px)", fontWeight: 800, color: COLORS.navy, marginTop: 8, marginBottom: "1.25rem", fontFamily: "'Georgia', serif", lineHeight: 1.25 }}>Bridging Research &amp;<br />Quality of Life</h2>
           <p style={{ fontSize: 15, color: COLORS.muted, lineHeight: 1.8, marginBottom: "1.5rem" }}>This national conference brings together researchers, clinicians, pharmacists, and health scientists to explore how translational research directly improves patient outcomes and quality of life across Africa and beyond.</p>
-          <p style={{ fontSize: 15, color: COLORS.muted, lineHeight: 1.8, marginBottom: "2rem" }}>Hosted by <strong style={{ color: COLORS.navy }}>Pharmapool Synergy Solutions Nig. Ltd</strong> in partnership with the GMP Research Group and Basic &amp; Translational Cancer Research Group at the University of Nigeria, Nsukka, and <strong style={{ color: COLORS.navy }}>Springer Nature</strong>.</p>
+          <p style={{ fontSize: 15, color: COLORS.muted, lineHeight: 1.8, marginBottom: "2rem" }}>Organized by <strong style={{ color: COLORS.navy }}>Pharmapool Synergy Solutions Nig. Ltd</strong> in partnership with the GMP Research Group, University of Nigeria Nsukka (UNN), Basic &amp; Translational Cancer Research Group, UNN, and <strong style={{ color: COLORS.navy }}>Springer Nature</strong>.</p>
           <div style={{ display: "flex", gap: "1.5rem", flexWrap: "wrap" }}>
             {[["11+", "Expert Speakers"], ["7", "Subthemes"], ["4", "Workshops"], ["2", "Days"]].map(([n, l]) => (
               <div key={l} style={{ textAlign: "center" }}>
@@ -325,7 +365,7 @@ function Abstract() {
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "1.5rem", marginTop: "2rem" }}>
           <div style={{ background: COLORS.bg, borderRadius: 16, padding: "1.5rem", border: `1px solid ${COLORS.border}` }}>
             <h3 style={{ fontSize: 15, fontWeight: 700, color: COLORS.navy, marginBottom: "1rem" }}>Submission Guidelines</h3>
-            {[["Max length", "250 words"], ["Structure", "Introduction · Methods · Results · Conclusion"], ["Include", "Title, authors, affiliations, email, WhatsApp"], ["Format", "Word document attachment"], ["Submission", "Email to conference.pharmapool@gmail.com"]].map(([k, v]) => (
+            {[["Max length", "250 words"], ["Structure", "Introduction · Methods · Results · Conclusion"], ["Include", "Title, authors, affiliations, email, phone number (WhatsApp)"], ["Format", "Word document attachment"], ["Submission", "Email to conference.pharmapool@gmail.com"]].map(([k, v]) => (
               <div key={k} style={{ display: "flex", gap: 10, padding: "8px 0", borderBottom: `1px solid ${COLORS.border}` }}>
                 <span style={{ fontSize: 12, fontWeight: 700, color: COLORS.muted, minWidth: 80 }}>{k}</span>
                 <span style={{ fontSize: 13, color: COLORS.text }}>{v}</span>
@@ -340,10 +380,12 @@ function Abstract() {
             </div>
             <div style={{ background: COLORS.bg, borderRadius: 12, padding: "1.25rem", border: `1px solid ${COLORS.border}` }}>
               <p style={{ fontSize: 13, fontWeight: 700, color: COLORS.navy, marginBottom: 8 }}>For enquiries contact:</p>
-              <p style={{ fontSize: 13, color: COLORS.text, marginBottom: 4 }}><strong>Prof. Chukwuma O. Agubata</strong> — Chairman, LOC</p>
-              <p style={{ fontSize: 13, color: COLORS.green }}>+234 803 824 6065</p>
-              <p style={{ fontSize: 13, color: COLORS.text, marginTop: 8, marginBottom: 4 }}><strong>Dr. Onyinyechi L. Nwachukwu</strong> — Secretary, LOC</p>
-              <p style={{ fontSize: 13, color: COLORS.green }}>+234 813 841 3948</p>
+              {[CONTACTS.secretary, CONTACTS.chairman].map((contact, i) => (
+                <div key={contact.role} style={{ marginTop: i === 0 ? 0 : 8 }}>
+                  <p style={{ fontSize: 13, color: COLORS.text, marginBottom: 4 }}><strong>{contact.name}</strong> — {contact.role}</p>
+                  <p style={{ fontSize: 13, color: COLORS.green }}>{contact.phone}</p>
+                </div>
+              ))}
             </div>
           </div>
         </div>
@@ -362,8 +404,8 @@ function Contact() {
           {[
             { label: "Email", value: "conference.pharmapool@gmail.com", icon: "📧", link: "mailto:conference.pharmapool@gmail.com" },
             { label: "Registration link", value: "forms.gle/KWyRSzhncUYfRRJt5", icon: "🔗", link: "https://forms.gle/KWyRSzhncUYfRRJt5" },
-            { label: "Chairman LOC", value: "+234 803 824 6065", icon: "📞" },
-            { label: "Secretary LOC", value: "+234 813 841 3948", icon: "📞" },
+            { label: CONTACTS.secretary.role, value: CONTACTS.secretary.phone, icon: "📞" },
+            { label: CONTACTS.chairman.role, value: CONTACTS.chairman.phone, icon: "📞" },
           ].map((c, i) => (
             <div key={i} style={{ background: COLORS.white, borderRadius: 12, padding: "1.25rem", border: `1px solid ${COLORS.border}` }}>
               <span style={{ fontSize: 22 }}>{c.icon}</span>
@@ -386,21 +428,21 @@ function Footer() {
       <div style={{ maxWidth: 1200, margin: "0 auto" }}>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "2rem", marginBottom: "2rem", paddingBottom: "2rem", borderBottom: "1px solid rgba(255,255,255,0.08)" }}>
           <div>
-            <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
-              <img src={logo} alt="Pharmapool" style={{ height: 36, width: 36, objectFit: "contain" }} />
-              <span style={{ color: "#fff", fontWeight: 700, fontSize: 14 }}>Pharmapool Conference</span>
+            <div style={{ marginBottom: 12 }}>
+              <LogoStrip compact light />
             </div>
+            <span style={{ color: "#fff", fontWeight: 700, fontSize: 14, display: "block", marginBottom: 8 }}>Pharmapool Conference</span>
             <p style={{ color: "rgba(255,255,255,0.4)", fontSize: 13, lineHeight: 1.7 }}>National Conference &amp; Workshop on Health-Related Research · July 1–2, 2026 · Virtual</p>
           </div>
           <div>
             <p style={{ color: "rgba(255,255,255,0.5)", fontSize: 11, fontWeight: 700, letterSpacing: 1.5, textTransform: "uppercase", marginBottom: 12 }}>Contact</p>
             <p style={{ color: "rgba(255,255,255,0.6)", fontSize: 13, marginBottom: 6 }}>conference.pharmapool@gmail.com</p>
-            <p style={{ color: "rgba(255,255,255,0.6)", fontSize: 13, marginBottom: 6 }}>+234 803 824 6065 (Chairman LOC)</p>
-            <p style={{ color: "rgba(255,255,255,0.6)", fontSize: 13 }}>+234 813 841 3948 (Secretary LOC)</p>
+            <p style={{ color: "rgba(255,255,255,0.6)", fontSize: 13, marginBottom: 6 }}>{CONTACTS.secretary.phone} ({CONTACTS.secretary.role})</p>
+            <p style={{ color: "rgba(255,255,255,0.6)", fontSize: 13 }}>{CONTACTS.chairman.phone} ({CONTACTS.chairman.role})</p>
           </div>
           <div>
             <p style={{ color: "rgba(255,255,255,0.5)", fontSize: 11, fontWeight: 700, letterSpacing: 1.5, textTransform: "uppercase", marginBottom: 12 }}>Partners</p>
-            {["GMP Research Group, UNN", "Basic & Translational Cancer Research Group, UNN", "Springer Nature"].map(p => (
+            {PARTNERS.map(p => (
               <p key={p} style={{ color: "rgba(255,255,255,0.5)", fontSize: 13, marginBottom: 6 }}>{p}</p>
             ))}
           </div>
